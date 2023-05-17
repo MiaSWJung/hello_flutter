@@ -72,14 +72,43 @@ class MyApp extends StatelessWidget {
 class MyAppState extends ChangeNotifier {}
 
 // https://youtu.be/PHdq1WnheHo
+// https://totally-developer.tistory.com/120
 class DiscoverPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text('discover');
+    return Column(
+      children: [
+        SizedBox(
+          height: 300,
+          child: Stack(
+            alignment: AlignmentDirectional.topStart,
+            children: [sliderWidget()],
+          ),
+        )
+      ],
+    );
   }
 }
 
-// https://docs.flutter.dev/cookbook/lists/horizontal-list
+Widget sliderWidget() {
+  final List<String> bannerEntries = <String>[
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI3ymLrtPVCgQAsQfVghW6yzQH1CpWBY8HjbNfGD_JvCYOB5nyAG0x8e7KWo_Rzv_x9s8&usqp=CAU',
+    'https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg',
+    'https://thumbs.dreamstime.com/b/beautiful-rain-forest-ang-ka-nature-trail-doi-inthanon-national-park-thailand-36703721.jpg',
+  ];
+
+  final PageController controller = PageController();
+  return PageView.builder(
+    controller: controller,
+    itemCount: bannerEntries.length,
+    itemBuilder: ((context, index) => SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Image(
+              fit: BoxFit.cover, image: NetworkImage(bannerEntries[index])),
+        )),
+  );
+}
+
 class FeedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
