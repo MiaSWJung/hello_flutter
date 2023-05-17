@@ -19,16 +19,47 @@ class MyApp extends StatelessWidget {
             length: 2,
             child: Scaffold(
               appBar: AppBar(
-                bottom: const TabBar(
-                  tabs: [
-                    Text('Discover'),
-                    Text('Feed'),
-                  ],
-                ),
-              ),
+                  backgroundColor: Colors.white,
+                  toolbarHeight: 40,
+                  bottom: PreferredSize(
+                    preferredSize: Size(360, 38.0),
+                    child: Container(
+                      alignment: Alignment.bottomLeft,
+                      padding: const EdgeInsets.fromLTRB(16, 0, 0, 5),
+                      child: TabBar(
+                        isScrollable: true,
+                        labelColor: Colors.black,
+                        unselectedLabelColor:
+                            Color.fromRGBO(209, 209, 209, 1.0),
+                        indicatorColor: Colors.transparent,
+                        tabs: [
+                          Tab(
+                            child: Container(
+                              width: 93,
+                              alignment: Alignment.bottomLeft,
+                              child: Text("Discover",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700)),
+                            ),
+                          ),
+                          Tab(
+                            child: Container(
+                              width: 60,
+                              alignment: Alignment.bottomLeft,
+                              child: Text('Feed',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )),
               body: TabBarView(
                 children: [
-                  Text('test'),
+                  discover,
                   feed,
                 ],
               ),
