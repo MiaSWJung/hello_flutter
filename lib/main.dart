@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 final Color grey1 = Color.fromRGBO(91, 91, 91, 1.0);
 final Color grey2 = Color.fromRGBO(138, 138, 138, 1.0);
 final Color grey3 = Color.fromRGBO(225, 225, 225, 1.0);
+final Color primaryColor = Color.fromRGBO(57, 255, 159, 1);
 void main() {
   runApp(const MyApp());
 }
@@ -26,40 +27,47 @@ class MyApp extends StatelessWidget {
                   toolbarHeight: 40,
                   bottom: PreferredSize(
                     preferredSize: Size(360, 38.0),
-                    child: Container(
-                      alignment: Alignment.bottomLeft,
-                      padding: const EdgeInsets.fromLTRB(16, 0, 0, 5),
-                      child: TabBar(
-                        isScrollable: true,
-                        labelColor: Colors.black,
-                        unselectedLabelColor:
-                            Color.fromRGBO(209, 209, 209, 1.0),
-                        indicatorColor: Colors.transparent,
-                        tabs: [
-                          Tab(
-                            child: SizedBox(
-                              child: Container(
-                                alignment: Alignment.bottomLeft,
-                                child: Text("Discover",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          alignment: Alignment.bottomLeft,
+                          padding: const EdgeInsets.fromLTRB(16, 0, 0, 5),
+                          child: TabBar(
+                            isScrollable: true,
+                            labelColor: Colors.black,
+                            unselectedLabelColor:
+                                Color.fromRGBO(209, 209, 209, 1.0),
+                            indicatorColor: Colors.transparent,
+                            tabs: [
+                              Tab(
+                                child: SizedBox(
+                                  child: Container(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Text("Discover",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700)),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          Tab(
-                            child: SizedBox(
-                              child: Container(
-                                alignment: Alignment.bottomLeft,
-                                child: Text('Feed',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700)),
+                              Tab(
+                                child: SizedBox(
+                                  child: Container(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Text('Feed',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700)),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        uploadButton()
+                      ],
                     ),
                   )),
               body: TabBarView(
@@ -77,19 +85,28 @@ class MyApp extends StatelessWidget {
 class MyAppState extends ChangeNotifier {}
 
 Widget uploadButton() {
-  return TextButton(
-      onPressed: () {},
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(
-            color: Color.fromRGBO(225, 225, 225, 1.0),
-          ),
-        ),
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 5),
+    child: TextButton(
+        onPressed: () {},
         child: Container(
-            alignment: Alignment.center, height: 20, child: Text('Upload +')),
-      ));
+          padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: primaryColor,
+            ),
+          ),
+          child: Container(
+              alignment: Alignment.center,
+              height: 20,
+              child: Text(
+                'Upload +',
+                style:
+                    TextStyle(color: primaryColor, fontWeight: FontWeight.w700),
+              )),
+        )),
+  );
 }
 
 Widget tabWidget() {
@@ -228,7 +245,7 @@ Widget feedCard() {
             height: double.infinity,
             width: 32,
             child: CircleAvatar(
-              backgroundColor: Color.fromRGBO(57, 255, 159, 1),
+              backgroundColor: primaryColor,
               child: Text('MF',
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
