@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         create: (context) => MyAppState(),
         child: MaterialApp(
           home: DefaultTabController(
-            length: 3,
+            length: 2,
             child: Scaffold(
               appBar: AppBar(
                   backgroundColor: Colors.white,
@@ -75,6 +75,22 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {}
+
+Widget uploadButton() {
+  return TextButton(
+      onPressed: () {},
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: Color.fromRGBO(225, 225, 225, 1.0),
+          ),
+        ),
+        child: Container(
+            alignment: Alignment.center, height: 20, child: Text('Upload +')),
+      ));
+}
 
 Widget tabWidget() {
   return Tab(
