@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+final Color grey1 = Color.fromRGBO(91, 91, 91, 1.0);
+final Color grey2 = Color.fromRGBO(138, 138, 138, 1.0);
+final Color grey3 = Color.fromRGBO(225, 225, 225, 1.0);
 void main() {
   runApp(const MyApp());
 }
@@ -34,23 +37,25 @@ class MyApp extends StatelessWidget {
                         indicatorColor: Colors.transparent,
                         tabs: [
                           Tab(
-                            child: Container(
-                              width: 93,
-                              alignment: Alignment.bottomLeft,
-                              child: Text("Discover",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700)),
+                            child: SizedBox(
+                              child: Container(
+                                alignment: Alignment.bottomLeft,
+                                child: Text("Discover",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700)),
+                              ),
                             ),
                           ),
                           Tab(
-                            child: Container(
-                              width: 60,
-                              alignment: Alignment.bottomLeft,
-                              child: Text('Feed',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700)),
+                            child: SizedBox(
+                              child: Container(
+                                alignment: Alignment.bottomLeft,
+                                child: Text('Feed',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700)),
+                              ),
                             ),
                           ),
                         ],
@@ -126,33 +131,136 @@ class FeedPage extends StatelessWidget {
       'etc'
     ];
 
-    return Column(
+    return ListView(
       children: [
-        SizedBox(
-          height: 44,
-          child: ListView.separated(
-            padding: const EdgeInsets.all(4),
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            itemCount: entries.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                  border: Border.all(
-                    color: Color.fromRGBO(225, 225, 225, 1.0),
+        Container(
+          padding: const EdgeInsets.all(8),
+          child: SizedBox(
+            height: 44,
+            child: ListView.separated(
+              padding: const EdgeInsets.all(4),
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemCount: entries.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: Color.fromRGBO(225, 225, 225, 1.0),
+                    ),
                   ),
-                ),
-                child: Center(child: Text(entries[index])),
-              );
-            },
-            separatorBuilder: ((context, index) => const SizedBox(
-                  width: 4,
-                )),
+                  child: Center(child: Text(entries[index])),
+                );
+              },
+              separatorBuilder: ((context, index) => const SizedBox(
+                    width: 4,
+                  )),
+            ),
+          ),
+        ),
+        ListView.separated(
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemCount: 3,
+          itemBuilder: (BuildContext context, int index) {
+            return feedCard();
+          },
+          separatorBuilder: (context, index) => const SizedBox(
+            height: 4,
           ),
         ),
       ],
     );
   }
+}
+
+Widget feedCard() {
+  final iconStyle = MaterialStateProperty.resolveWith((states) {
+    if (states.contains(MaterialState.pressed)) {
+      return Colors.black;
+    }
+    return grey2;
+  });
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      ListTile(
+        leading: FlutterLogo(size: 44),
+        title: Text('Brian Smith'),
+        subtitle: Text('Southwest London'),
+        trailing: Icon(Icons.more_vert),
+      ),
+      Container(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        child: Text(
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lacus et risus euismod egestas. Nullam aliquet ex vitae turpis commodo, a convallis felis gravidaa.'),
+      ),
+      Container(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        child: SizedBox(
+            child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: Color.fromRGBO(225, 225, 225, 1.0),
+            ),
+          ),
+          child: SizedBox(
+              child: Container(
+                  padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                  child: Text(style: TextStyle(color: grey1), '# highlights'))),
+        )),
+      ),
+      SizedBox(
+        // height: 355,
+        child: Image(
+            fit: BoxFit.cover,
+            image: NetworkImage(
+                'https://media.cnn.com/api/v1/images/stellar/prod/221126143352-weston-mckennie.jpg?c=original')),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: [
+                TextButton.icon(
+                  style: ButtonStyle(iconColor: iconStyle),
+                  icon: Icon(
+                    Icons.rocket_outlined,
+                    size: 20,
+                  ),
+                  label: Text(
+                    '208C',
+                    style: TextStyle(color: grey2),
+                  ),
+                  onPressed: () {/* ... */},
+                ),
+                TextButton.icon(
+                  style: ButtonStyle(iconColor: iconStyle),
+                  icon: Icon(
+                    Icons.chat_bubble_outline,
+                    size: 20,
+                  ),
+                  label: Text(
+                    '3',
+                    style: TextStyle(color: grey2),
+                  ),
+                  onPressed: () {/* ... */},
+                ),
+              ],
+            ),
+            Icon(
+              Icons.share_outlined,
+              color: grey2,
+              size: 20,
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
 }
