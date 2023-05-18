@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         create: (context) => MyAppState(),
         child: MaterialApp(
           home: DefaultTabController(
-            length: 2,
+            length: 3,
             child: Scaffold(
               appBar: AppBar(
                   backgroundColor: Colors.white,
@@ -76,8 +76,18 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {}
 
-// https://youtu.be/PHdq1WnheHo
-// https://totally-developer.tistory.com/120
+Widget tabWidget() {
+  return Tab(
+    child: SizedBox(
+      child: Container(
+        alignment: Alignment.bottomLeft,
+        child: Text('test',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+      ),
+    ),
+  );
+}
+
 class DiscoverPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -117,63 +127,74 @@ Widget sliderWidget() {
 class FeedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final List<String> entries = <String>[
-      'All',
-      'Highlights',
-      'Urgent',
-      'Wanted',
-      'Sponsors',
-      'Pitch',
-      'Pickup Football',
-      'Tips',
-      'Reviewers',
-      'Giveaway',
-      'etc'
-    ];
+    return SingleChildScrollView(
+        child: Column(
+      children: <Widget>[
+        hashtagList(),
+        feedList(),
+      ],
+    ));
+  }
+}
 
-    return ListView(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          child: SizedBox(
-            height: 44,
-            child: ListView.separated(
-              padding: const EdgeInsets.all(4),
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: entries.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(
-                      color: Color.fromRGBO(225, 225, 225, 1.0),
-                    ),
-                  ),
-                  child: Center(child: Text(entries[index])),
-                );
-              },
-              separatorBuilder: ((context, index) => const SizedBox(
-                    width: 4,
-                  )),
+Widget hashtagList() {
+  final List<String> entries = <String>[
+    'All',
+    'Highlights',
+    'Urgent',
+    'Wanted',
+    'Sponsors',
+    'Pitch',
+    'Pickup Football',
+    'Tips',
+    'Reviewers',
+    'Giveaway',
+    'etc'
+  ];
+  return Container(
+    padding: const EdgeInsets.all(8),
+    child: SizedBox(
+      height: 44,
+      child: ListView.separated(
+        padding: const EdgeInsets.all(4),
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        itemCount: entries.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(
+                color: Color.fromRGBO(225, 225, 225, 1.0),
+              ),
             ),
-          ),
-        ),
-        ListView.separated(
+            child: Center(child: Text(entries[index])),
+          );
+        },
+        separatorBuilder: ((context, index) => const SizedBox(
+              width: 4,
+            )),
+      ),
+    ),
+  );
+}
+
+Widget feedList() {
+  return ListView(
+    scrollDirection: Axis.vertical,
+    physics: NeverScrollableScrollPhysics(),
+    shrinkWrap: true,
+    children: <Widget>[
+      ListView.builder(
           shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          itemCount: 3,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: 5,
           itemBuilder: (BuildContext context, int index) {
             return feedCard();
-          },
-          separatorBuilder: (context, index) => const SizedBox(
-            height: 4,
-          ),
-        ),
-      ],
-    );
-  }
+          }),
+    ],
+  );
 }
 
 Widget feedCard() {
@@ -187,15 +208,37 @@ Widget feedCard() {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       ListTile(
-        leading: FlutterLogo(size: 44),
-        title: Text('Brian Smith'),
-        subtitle: Text('Southwest London'),
+        leading: SizedBox(
+            height: double.infinity,
+            width: 32,
+            child: CircleAvatar(
+              backgroundColor: Color.fromRGBO(57, 255, 159, 1),
+              child: Text('MF',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                      color: Color.fromRGBO(46, 171, 111, 1))),
+            )),
+        title: Text(
+          'Brian Smith',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        subtitle: Text(
+          'Southwest London',
+          style: TextStyle(fontSize: 12),
+        ),
         trailing: Icon(Icons.more_vert),
       ),
       Container(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
         child: Text(
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lacus et risus euismod egestas. Nullam aliquet ex vitae turpis commodo, a convallis felis gravidaa.'),
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet lacus et risus euismod egestas. Nullam aliquet ex vitae turpis commodo, a convallis felis gravidaa.',
+          style: TextStyle(
+              color: grey1, fontWeight: FontWeight.w400, fontSize: 12),
+        ),
       ),
       Container(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -210,11 +253,13 @@ Widget feedCard() {
           child: SizedBox(
               child: Container(
                   padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                  child: Text(style: TextStyle(color: grey1), '# highlights'))),
+                  child: Text(
+                      style: TextStyle(color: grey1, fontSize: 12),
+                      '# highlights'))),
         )),
       ),
       SizedBox(
-        // height: 355,
+        height: 355,
         child: Image(
             fit: BoxFit.cover,
             image: NetworkImage(
