@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (context) => MyAppState(),
         child: MaterialApp(
+          // Theme 으로 디자인 시스템 재활용하기
           home: DefaultTabController(
             length: 2,
             child: Scaffold(
@@ -213,9 +214,11 @@ Widget hashtagList() {
   );
 }
 
+// 중복 사용 위젯 체크해보기
 Widget feedList() {
   return ListView(
     scrollDirection: Axis.vertical,
+    // 디바이스마다 스크롤 바운스 및 애니메이션 이펙트를 최적화해주는 옵션
     physics: NeverScrollableScrollPhysics(),
     shrinkWrap: true,
     children: <Widget>[
